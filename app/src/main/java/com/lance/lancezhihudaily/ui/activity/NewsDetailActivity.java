@@ -1,41 +1,25 @@
 package com.lance.lancezhihudaily.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.webkit.WebView;
+import android.support.v4.app.Fragment;
 
-import com.lance.lancezhihudaily.R;
-import com.lance.lancezhihudaily.asynctask.LoadNewsDetailTask;
 import com.lance.lancezhihudaily.bean.News;
+import com.lance.lancezhihudaily.ui.fragment.NewsDetailFragment;
 
-public class NewsDetailActivity extends Activity {
+public class NewsDetailActivity extends SingleFragmentActivity {
 
-    private WebView mWebView;
-    private News news;
+    private static final String EXTRA_NEWS = "com.lance.lancezhihudaily.news";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_detail);
-        mWebView = (WebView) findViewById(R.id.web_view);
-        setWebView(mWebView);
-
-        news = (News) getIntent().getSerializableExtra("news");
-        new LoadNewsDetailTask(mWebView).execute(news.getId());
+    protected Fragment createFragment() {
+        News news = (News) getIntent().getSerializableExtra(EXTRA_NEWS);
+        return NewsDetailFragment.newInstance(news);
     }
 
-    private void setWebView(WebView webView) {
-//        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setSupportZoom(true);
-        webView.setVerticalScrollBarEnabled(false);
-        webView.setHorizontalScrollBarEnabled(false);
-    }
-
-    public static void startActivity(Context context, News news) {
+    public static Intent newIntent(Context context, News news) {
         Intent intent = new Intent(context, NewsDetailActivity.class);
-        intent.putExtra("news", news);
-        context.startActivity(intent);
+        intent.putExtra(EXTRA_NEWS, news);
+        return intent;
     }
 }

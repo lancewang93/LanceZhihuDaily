@@ -1,6 +1,7 @@
 package com.lance.lancezhihudaily.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     private List<News> mNewsList;
     private Context mContext;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder{
 
         View latestNewsView;
         TextView latestNewsId;
@@ -36,6 +37,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             latestNewsId = (TextView) itemView.findViewById(R.id.news_title);
             latestNewsImage = (ImageView) itemView.findViewById(R.id.image_id);
         }
+
     }
     public NewsAdapter(Context context, List<News> newsList) {
         mContext = context;
@@ -52,7 +54,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 News news = mNewsList.get(position);
-                NewsDetailActivity.startActivity(v.getContext(), news);
+                Intent intent = NewsDetailActivity.newIntent(v.getContext(), news);
+                v.getContext().startActivity(intent);
             }
         });
         return viewHolder;
