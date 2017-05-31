@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.lance.lancezhihudaily.R;
 import com.lance.lancezhihudaily.bean.News;
-import com.lance.lancezhihudaily.ui.activity.NewsDetailActivity;
+import com.lance.lancezhihudaily.ui.activity.NewsDetailPagerActivity;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 News news = mNewsList.get(position);
-                Intent intent = NewsDetailActivity.newIntent(v.getContext(), news);
+                Intent intent = NewsDetailPagerActivity.newIntent(v.getContext(), mNewsList, news);
                 v.getContext().startActivity(intent);
             }
         });
@@ -66,7 +66,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
         News news = mNewsList.get(position);
         holder.latestNewsId.setText(news.getTitle());
         Glide.with(mContext).load(news.getImage()).into(holder.latestNewsImage);
-
     }
 
     @Override

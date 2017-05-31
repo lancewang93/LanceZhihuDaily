@@ -23,7 +23,6 @@ public class NewsDetailFragment extends Fragment {
     private WebView mWebView;
     public News news;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +50,6 @@ public class NewsDetailFragment extends Fragment {
     public static NewsDetailFragment newInstance(News news) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_NEWS, news);
-
         NewsDetailFragment newsDetailFragment = new NewsDetailFragment();
         newsDetailFragment.setArguments(args);
         return newsDetailFragment;
