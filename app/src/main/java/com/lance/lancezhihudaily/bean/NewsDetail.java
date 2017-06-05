@@ -36,7 +36,7 @@ public class NewsDetail {
     private long id;
 
     //供手机端的 WebView(UIWebView) 使用
-    private List<?> js;
+    private List<String> js;
 
     //[最新消息]中的缩略图
     private List<String> images;
@@ -152,11 +152,11 @@ public class NewsDetail {
         this.id = id;
     }
 
-    public List<?> getJs() {
+    public List<String> getJs() {
         return js;
     }
 
-    public void setJs(List<?> js) {
+    public void setJs(List<String> js) {
         this.js = js;
     }
 

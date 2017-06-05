@@ -18,7 +18,7 @@ import java.util.List;
 
 public class NewsDetailPagerActivity extends AppCompatActivity {
 
-    public static final String EXTRA_NEWS = "com.lance.lancezhihudaily.news";
+    public static final String EXTRA_NEWS = "com.lance.lancezhihudaily.mNews";
     public static final String EXTRA_NEWS_LIST = "com.lance.lancezhihudaily.news_list";
 
     private ViewPager mViewPager;

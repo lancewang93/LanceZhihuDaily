@@ -46,7 +46,7 @@ public class NewsListFragment extends Fragment {
             , @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
 
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.news_list_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -61,7 +61,7 @@ public class NewsListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.toolbar, menu);
+        inflater.inflate(R.menu.news_list_toolbar, menu);
     }
 
     @Override

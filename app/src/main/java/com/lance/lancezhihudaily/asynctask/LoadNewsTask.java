@@ -22,11 +22,6 @@ public class LoadNewsTask extends AsyncTask<Void, Void, List<News>> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected List<News> doInBackground(Void... params) {
         List<News> newsList;
         newsList = ParseJSON.parseJSONToList(SendHttp.getLastNewsList());
@@ -36,10 +31,5 @@ public class LoadNewsTask extends AsyncTask<Void, Void, List<News>> {
     @Override
     protected void onPostExecute(List<News> newsList) {
         mAdapter.refreshNewsList(newsList);
-    }
-
-    @Override
-    protected void onProgressUpdate(Void... values) {
-        super.onProgressUpdate(values);
     }
 }
