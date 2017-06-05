@@ -2,7 +2,7 @@ package com.lance.lancezhihudaily.asynctask;
 
 import android.os.AsyncTask;
 
-import com.lance.lancezhihudaily.adapter.NewsAdapter;
+import com.lance.lancezhihudaily.ui.adapter.NewsAdapter;
 import com.lance.lancezhihudaily.bean.News;
 import com.lance.lancezhihudaily.http.ParseJSON;
 import com.lance.lancezhihudaily.http.SendHttp;

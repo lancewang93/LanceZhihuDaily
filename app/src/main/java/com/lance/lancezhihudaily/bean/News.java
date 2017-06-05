@@ -1,18 +1,23 @@
 package com.lance.lancezhihudaily.bean;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 2017/5/22 0022.
  */
 
-public class News implements Serializable {
+public class News extends DataSupport implements Serializable {
 
     private String id;
 
     private String title;
 
     private String image;
+
+    public News() {
+    }
 
     public News(String id, String title, String image) {
         this.id = id;

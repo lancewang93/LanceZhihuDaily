@@ -1,4 +1,4 @@
-package com.lance.lancezhihudaily.adapter;
+package com.lance.lancezhihudaily.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
