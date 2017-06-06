@@ -57,7 +57,7 @@ public class NewsDetailPagerActivity extends AppCompatActivity {
         mViewPager.setAdapter(fragmentStatePagerAdapter);
 
         for (int i = 0; i < mNewsList.size(); i++) {
-            if (mNewsList.get(i).getId().equals(news.getId())) {
+            if (mNewsList.get(i).getNewsId().equals(news.getNewsId())) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

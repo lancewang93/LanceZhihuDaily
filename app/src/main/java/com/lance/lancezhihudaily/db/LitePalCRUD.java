@@ -17,14 +17,16 @@ public class LitePalCRUD {
         Connector.getDatabase();
     }
 
-    public static void saveFavorite(String newsId) {
-        News news = new News();
-        news.setId(newsId);
-        news.save();
+    public static void saveFavorite(News news) {
+        News newsData = new News();
+        newsData.setNewsId(news.getNewsId());
+        newsData.setImage(news.getImage());
+        newsData.setTitle(news.getTitle());
+        newsData.save();
     }
 
-    public static void deleteFavorite(String newsId) {
-        DataSupport.deleteAll(News.class, "newsId = ?", newsId);
+    public static void deleteFavorite(News news) {
+        DataSupport.deleteAll(News.class, "newsId = ?", news.getNewsId());
     }
 
     public static List<News> loadFavoriteList() {
@@ -32,7 +34,7 @@ public class LitePalCRUD {
     }
 
     public static Boolean isFavorite(News news) {
-        List<News> isFavorite = DataSupport.where("newsId = ?", news.getId()).find(News.class);
-        return isFavorite != null;
+        List<News> FavoriteList = DataSupport.where("newsId = ?", news.getNewsId()).find(News.class);
+        return FavoriteList.size() != 0;
     }
 }

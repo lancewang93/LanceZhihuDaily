@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 public class News extends DataSupport implements Serializable {
 
-    private String id;
+    private String newsId;
 
     private String title;
 
@@ -19,18 +19,18 @@ public class News extends DataSupport implements Serializable {
     public News() {
     }
 
-    public News(String id, String title, String image) {
-        this.id = id;
+    public News(String newsId, String title, String image) {
+        this.newsId = newsId;
         this.title = title;
         this.image = image;
     }
 
-    public String getId() {
-        return id;
+    public String getNewsId() {
+        return newsId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setNewsId(String newsId) {
+        this.newsId = newsId;
     }
 
     public String getTitle() {
