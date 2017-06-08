@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,10 +31,11 @@ import java.util.List;
  * Created by Administrator on 2017/5/28 0028.
  */
 
-public class NewsListFragment extends Fragment {
+public class NewsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private List<News> newsList;
     private NewsAdapter adapter;
+    private SwipeRefreshLayout swipeRefresh;
     RecyclerView recyclerView;
 
     @Override
@@ -52,6 +54,9 @@ public class NewsListFragment extends Fragment {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.news_list_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefresh.setOnRefreshListener(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.news_list_recycler_view);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -83,5 +88,11 @@ public class NewsListFragment extends Fragment {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onRefresh() {
+        new LoadNewsTask(adapter).execute();
+        swipeRefresh.setRefreshing(false);
     }
 }
