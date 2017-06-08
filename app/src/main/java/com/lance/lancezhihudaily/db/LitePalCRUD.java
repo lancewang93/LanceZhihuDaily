@@ -22,6 +22,7 @@ public class LitePalCRUD {
         newsData.setNewsId(news.getNewsId());
         newsData.setImage(news.getImage());
         newsData.setTitle(news.getTitle());
+        newsData.setRead(news.isRead());
         newsData.save();
     }
 
