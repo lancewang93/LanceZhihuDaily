@@ -27,18 +27,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private Context mContext;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
-        View latestNewsView;
-        TextView latestNewsId;
-        ImageView latestNewsImage;
+        View newsItemView;
+        TextView newsItemId;
+        ImageView newsItemImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            latestNewsView = itemView;
-            latestNewsId = (TextView) itemView.findViewById(R.id.news_title);
-            latestNewsImage = (ImageView) itemView.findViewById(R.id.image_id);
+            newsItemView = itemView;
+            newsItemId = (TextView) itemView.findViewById(R.id.news_title);
+            newsItemImage = (ImageView) itemView.findViewById(R.id.image_id);
         }
-
     }
 
     public NewsAdapter(Context context, List<News> newsList) {
@@ -50,42 +48,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_item, parent, false);
-        final ViewHolder viewHolder = new ViewHolder(view);
-        /*viewHolder.latestNewsView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = viewHolder.getAdapterPosition();
-                News news = mNewsList.get(position);
-                news.setRead(true);
-                Intent intent = NewsDetailPagerActivity.newIntent(v.getContext(), mNewsList, news);
-                v.getContext().startActivity(intent);
-            }
-        });*/
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         News news = mNewsList.get(position);
         if (news.isRead()) {
-            holder.latestNewsId.setTextColor(ContextCompat.getColor(mContext, R.color.colorIsRead));
+            holder.newsItemId.setTextColor(ContextCompat.getColor(mContext, R.color.colorIsRead));
         } else {
-            holder.latestNewsId.setTextColor(ContextCompat.getColor(mContext, R.color.colorUnRead));
+            holder.newsItemId.setTextColor(ContextCompat.getColor(mContext, R.color.colorUnRead));
         }
-        holder.latestNewsId.setText(news.getTitle());
-        Glide.with(mContext).load(news.getImage()).into(holder.latestNewsImage);
-        holder.latestNewsView.setTag(mNewsList.get(position));
+        holder.newsItemId.setText(news.getTitle());
+        Glide.with(mContext).load(news.getImage()).into(holder.newsItemImage);
+        holder.newsItemView.setTag(mNewsList.get(position));
 
-        holder.latestNewsView.setOnClickListener(getListener(holder, news));
+        //RecyclerView的Item点击监听
+        holder.newsItemView.setOnClickListener(getListener(holder, news));
     }
 
+    //Item的点击事件
     private View.OnClickListener getListener(final ViewHolder holder, final News news) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!news.isRead()) {
                     news.setRead(true);
-                    holder.latestNewsId.setTextColor(ContextCompat.getColor(mContext, R.color.colorIsRead));
+                    holder.newsItemId.setTextColor(ContextCompat.getColor(mContext, R.color.colorIsRead));
                     Intent intent = NewsDetailPagerActivity.newIntent(v.getContext(), mNewsList, news);
                     v.getContext().startActivity(intent);
                 }

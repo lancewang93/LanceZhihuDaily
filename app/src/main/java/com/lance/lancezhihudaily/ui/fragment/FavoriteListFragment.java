@@ -27,30 +27,32 @@ import static com.lance.lancezhihudaily.R.id.favorite_list_recycler_view;
 
 public class FavoriteListFragment extends Fragment {
 
-    private List<News> FavoriteList;
-    private NewsAdapter adapter;
-    private RecyclerView recyclerView;
+    private List<News> mFavoriteList;
+    private NewsAdapter mFavoriteAdapter;
+    private Toolbar mFavoriteToolbar;
+    private RecyclerView mFavoriteRecyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FavoriteList = LitePalCRUD.loadFavoriteList();
-        adapter = new NewsAdapter(getContext(), FavoriteList);
+        mFavoriteList = LitePalCRUD.loadFavoriteList();
+        mFavoriteAdapter = new NewsAdapter(getContext(), mFavoriteList);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite_list, container, false);
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.favorite_list_toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        recyclerView = (RecyclerView) view.findViewById(favorite_list_recycler_view);
+        //加载收藏页面的ToolBar
+        mFavoriteToolbar = (Toolbar) view.findViewById(R.id.favorite_list_toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mFavoriteToolbar);
+
+        mFavoriteRecyclerView = (RecyclerView) view.findViewById(favorite_list_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setHasFixedSize(true);
-        //
+        mFavoriteRecyclerView.setLayoutManager(layoutManager);
+        mFavoriteRecyclerView.setAdapter(mFavoriteAdapter);
+        mFavoriteRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mFavoriteRecyclerView.setHasFixedSize(true);
         return view;
     }
 }

@@ -4,11 +4,12 @@
 
     <item
         android:id="@+id/action_bar_favourite"
-        android:title="Favourite"
+        android:title="@string/favorite_toolbar_item1"
         app:showAsAction="always"
         android:icon="@drawable/fav_active" />
     <item
         android:id="@+id/action_settings"
-        android:title="Settings"
-        app:showAsAction="never"/>
+        android:title="@string/favorite_toolbar_item2"
+        android:icon="@drawable/ic_settings_black_48dp"
+        app:showAsAction="ifRoom"/>
 </menu>

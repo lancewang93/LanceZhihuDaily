@@ -40,10 +40,9 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
     private WebView mWebView;
 
     public News mNews;
-
     public NewsDetail mNewsDetail;
 
-    LoadNewsDetailTask mLoadNewsDetailTask;
+    private LoadNewsDetailTask mLoadNewsDetailTask;
 
     private boolean isFavorite = false;
 
@@ -82,33 +81,38 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
         } else {
             mFloatingFavorite.setImageResource(R.drawable.fav_normal);
         }
-        init();
+        initCollapsingToolBar();
         setWebView(mWebView);
         mLoadNewsDetailTask.execute(mNews.getNewsId());
         return view;
     }
 
+    //设置WebView
     private void setWebView(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
     }
 
+    //AsyncTask的监听器返回newsDetail数据
     @Override
     public void processFinish(NewsDetail newsDetail) {
         if (newsDetail != null) {
             mNewsDetail = newsDetail;
-            loadData();
+            //加载newsDetail数据
+            loadNewsDetailData();
         }
     }
 
-    private void init() {
+    //折叠标题栏的加载
+    private void initCollapsingToolBar() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbarNewsDetail);
         mCollapsingToolbarLayout.setTitleEnabled(true);
     }
 
-    public void loadData() {
+    //加载newsDetail数据的方法
+    public void loadNewsDetailData() {
         Glide.with(getContext())
                 .load(mNewsDetail.getImage())
                 .into(mImageViewHeader);
@@ -117,9 +121,11 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
         mWebView.setDrawingCacheEnabled(true);
         String htmlData = HtmlUtil.createHtmlData(mNewsDetail);
         mWebView.loadData(htmlData, HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
+        //设置FloatingButton的点击监听器
         mFloatingFavorite.setOnClickListener(this);
     }
 
+    //FloatingButton的点击后实现的逻辑
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -139,4 +145,3 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
         }
     }
 }
-

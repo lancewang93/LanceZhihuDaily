@@ -23,6 +23,8 @@ import com.lance.lancezhihudaily.asynctask.LoadNewsTask;
 import com.lance.lancezhihudaily.bean.News;
 import com.lance.lancezhihudaily.ui.activity.FavoriteListActivity;
 import com.lance.lancezhihudaily.ui.adapter.NewsAdapter;
+import com.lance.lancezhihudaily.utils.MyApp;
+import com.lance.lancezhihudaily.utils.NetworkCheck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,16 +35,17 @@ import java.util.List;
 
 public class NewsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private List<News> newsList;
-    private NewsAdapter adapter;
-    private SwipeRefreshLayout swipeRefresh;
-    RecyclerView recyclerView;
+    private List<News> mNewsList;
+    private NewsAdapter mNewsAdapter;
+    private SwipeRefreshLayout mSwipeRefresh;
+
+    private RecyclerView mRecyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        newsList = new ArrayList<>();
-        adapter = new NewsAdapter(getContext(), newsList);
+        mNewsList = new ArrayList<>();
+        mNewsAdapter = new NewsAdapter(getContext(), mNewsList);
     }
 
     @Nullable
@@ -54,17 +57,22 @@ public class NewsListFragment extends Fragment implements SwipeRefreshLayout.OnR
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.news_list_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
-        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefresh.setOnRefreshListener(this);
-        recyclerView = (RecyclerView) view.findViewById(R.id.news_list_recycler_view);
+        mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        mSwipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+        mSwipeRefresh.setOnRefreshListener(this);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.news_list_recycler_view);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setHasFixedSize(true);
-        new LoadNewsTask(adapter).execute();
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mNewsAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setHasFixedSize(true);
+
+        if (NetworkCheck.checkNetWorkConnection(MyApp.getContext())) {
+            new LoadNewsTask(mNewsAdapter).execute();
+        } else {
+            NetworkCheck.noNetworkAlert(getContext());
+        }
         return view;
     }
 
@@ -92,7 +100,11 @@ public class NewsListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        new LoadNewsTask(adapter).execute();
-        swipeRefresh.setRefreshing(false);
+        if (NetworkCheck.checkNetWorkConnection(MyApp.getContext())) {
+            new LoadNewsTask(mNewsAdapter).execute();
+        } else {
+            NetworkCheck.noNetworkAlert(getContext());
+        }
+        mSwipeRefresh.setRefreshing(false);
     }
 }

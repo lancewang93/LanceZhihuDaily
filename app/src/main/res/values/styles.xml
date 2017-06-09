@@ -10,12 +10,15 @@
         <item name="windowActionBar">false</item>
     </style>
 
-    <style name="CollapsingToolbarTitleStyle.About" parent="@android:style/TextAppearance">
+    <style name="CollapsingToolbarTitleStyle" parent="@android:style/TextAppearance">
         <item name="android:textColor">@android:color/transparent</item>
     </style>
 
-
     <style name="NewsDetailTheme" parent="AppTheme">
+    </style>
+
+    <style name="MyFloatingButton" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/white</item>
     </style>
 
 </resources>

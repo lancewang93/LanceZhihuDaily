@@ -16,9 +16,9 @@ public class NetworkCheck {
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isAvailable()) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public static void noNetworkAlert(Context context) {

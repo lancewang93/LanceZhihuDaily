@@ -22,6 +22,7 @@ public class NewsDetailPagerActivity extends AppCompatActivity {
     public static final String EXTRA_NEWS_LIST = "com.lance.lancezhihudaily.news_list";
 
     private ViewPager mViewPager;
+    private News mNews;
     private List<News> mNewsList;
 
     public static Intent newIntent(Context context,List<News> newsList, News news) {
@@ -35,10 +36,9 @@ public class NewsDetailPagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail_pager);
-
         mViewPager = (ViewPager) findViewById(R.id.activity_news_detail_pager_view_pager);
 
-        News news = (News) getIntent().getSerializableExtra(EXTRA_NEWS);
+        mNews = (News) getIntent().getSerializableExtra(EXTRA_NEWS);
         mNewsList = (List<News>) getIntent().getSerializableExtra(EXTRA_NEWS_LIST);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -56,8 +56,12 @@ public class NewsDetailPagerActivity extends AppCompatActivity {
         };
         mViewPager.setAdapter(fragmentStatePagerAdapter);
 
+        setCurrentItem();
+    }
+
+    private void setCurrentItem() {
         for (int i = 0; i < mNewsList.size(); i++) {
-            if (mNewsList.get(i).getNewsId().equals(news.getNewsId())) {
+            if (mNewsList.get(i).getNewsId().equals(mNews.getNewsId())) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

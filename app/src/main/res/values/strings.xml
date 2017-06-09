@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">LanceZhihuDaily</string>
+    <string name="app_name">日报Demo</string>
+    <string name="news_detail_text_title">新闻标题新闻标题新闻标题新闻</string>
+    <string name="news_detail_text_source">图片来源</string>
+    <string name="favorite_toolbar_item1">Favourite</string>
+    <string name="favorite_toolbar_item2">Settings</string>
 </resources>
