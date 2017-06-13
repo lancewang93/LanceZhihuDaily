@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.lance.lancezhihudaily.R;
 import com.lance.lancezhihudaily.bean.News;
+import com.lance.lancezhihudaily.db.DBDao;
 import com.lance.lancezhihudaily.ui.activity.NewsDetailPagerActivity;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<News> mNewsList;
     private Context mContext;
+
+    private DBDao mDBDao;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View newsItemView;
@@ -42,6 +45,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public NewsAdapter(Context context, List<News> newsList) {
         mContext = context;
         mNewsList = newsList;
+        mDBDao = new DBDao(mContext);
     }
 
     @Override
@@ -54,7 +58,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         News news = mNewsList.get(position);
-        if (news.isRead()) {
+        if (mDBDao.isRead(news)) {
             holder.newsItemId.setTextColor(ContextCompat.getColor(mContext, R.color.colorIsRead));
         } else {
             holder.newsItemId.setTextColor(ContextCompat.getColor(mContext, R.color.colorUnRead));
@@ -72,12 +76,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!news.isRead()) {
-                    news.setRead(true);
+
+                if (!mDBDao.isRead(news)) {
+                    mDBDao.insertRead(news);
                     holder.newsItemId.setTextColor(ContextCompat.getColor(mContext, R.color.colorIsRead));
-                    Intent intent = NewsDetailPagerActivity.newIntent(v.getContext(), mNewsList, news);
-                    v.getContext().startActivity(intent);
                 }
+                Intent intent = NewsDetailPagerActivity.newIntent(v.getContext(), mNewsList, news);
+                v.getContext().startActivity(intent);
             }
         };
     }

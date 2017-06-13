@@ -6,7 +6,7 @@
 
 ## 声明
 
-本软件与其代码非由知乎创作或维护。软件中所包含的信息与内容皆违反版权与知乎用户协议。它是一个免费软件。其中的所有内容均可在[知乎](http://www.zhihu.com)获取。若使用的内容有侵权请联系作者进行删除处理。本应用仅用作分享与学习。
+本软件与其代码非由知乎创作或维护。软件中所包含的信息与内容皆违反版权与知乎用户协议。其中的所有内容均可在[知乎](http://www.zhihu.com)获取。若使用的内容有侵权请联系作者进行删除处理。本应用仅用作分享与学习。
 
 
 
@@ -26,17 +26,16 @@
 - Okhttp
 - Glide
 - Design
-- Litepal
 
 
 ## 升级计划
 
-- 新闻页面加分享按钮
+- MVC、MVP等设计模式
 - 新闻列表页下拉加载旧新闻
-- Aboutme页面
+- ABOUTME页面
 - 平板设备的新页面
-- MVC等设计模式
-- 使用新依赖RxJava、RxAndroid、Retrofit、butterknife
+- 新闻页面加分享按钮
+- 使用新依赖RxJava、RxAndroid、Retrofit、Butterknife、EventBus
 - 完全Material Design
 - 夜间模式
 - 设置模式
@@ -44,7 +43,7 @@
 
 ## 联系我
 
-- Github: github.com/lancewang93
+- GitHub: github.com/lancewang93
 - Email: lancewang93@gmail.com
 
 

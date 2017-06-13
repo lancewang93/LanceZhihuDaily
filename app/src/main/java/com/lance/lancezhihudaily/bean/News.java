@@ -1,22 +1,18 @@
 package com.lance.lancezhihudaily.bean;
 
-import org.litepal.crud.DataSupport;
-
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 2017/5/22 0022.
  */
 
-public class News extends DataSupport implements Serializable {
+public class News implements Serializable {
 
     private String newsId;
 
     private String title;
 
     private String image;
-
-    private boolean isRead;
 
     public News() {
 
@@ -27,7 +23,6 @@ public class News extends DataSupport implements Serializable {
         this.newsId = newsId;
         this.title = title;
         this.image = image;
-        this.isRead = false;
     }
     public String getNewsId() {
 
@@ -52,11 +47,5 @@ public class News extends DataSupport implements Serializable {
     public void setImage(String image) {
 
         this.image = image;
-    }
-    public boolean isRead() {
-        return isRead;
-    }
-    public void setRead(boolean read) {
-        isRead = read;
     }
 }

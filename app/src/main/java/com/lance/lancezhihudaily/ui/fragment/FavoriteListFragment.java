@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.lance.lancezhihudaily.R;
 import com.lance.lancezhihudaily.bean.News;
-import com.lance.lancezhihudaily.db.LitePalCRUD;
+import com.lance.lancezhihudaily.db.DBDao;
 import com.lance.lancezhihudaily.ui.adapter.NewsAdapter;
 
 import java.util.List;
@@ -32,10 +32,13 @@ public class FavoriteListFragment extends Fragment {
     private Toolbar mFavoriteToolbar;
     private RecyclerView mFavoriteRecyclerView;
 
+    private DBDao mDBDao;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFavoriteList = LitePalCRUD.loadFavoriteList();
+        mDBDao = new DBDao(getActivity());
+        mFavoriteList = mDBDao.getFavoriteList();
         mFavoriteAdapter = new NewsAdapter(getContext(), mFavoriteList);
     }
 

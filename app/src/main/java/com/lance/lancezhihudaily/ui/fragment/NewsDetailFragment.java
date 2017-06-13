@@ -20,7 +20,7 @@ import com.lance.lancezhihudaily.asynctask.LoadNewsDetailTask;
 import com.lance.lancezhihudaily.asynctask.NewsDetailTaskResponse;
 import com.lance.lancezhihudaily.bean.News;
 import com.lance.lancezhihudaily.bean.NewsDetail;
-import com.lance.lancezhihudaily.db.LitePalCRUD;
+import com.lance.lancezhihudaily.db.DBDao;
 import com.lance.lancezhihudaily.utils.HtmlUtil;
 
 /**
@@ -43,6 +43,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
     public NewsDetail mNewsDetail;
 
     private LoadNewsDetailTask mLoadNewsDetailTask;
+    private DBDao mDBDao;
 
     private boolean isFavorite = false;
 
@@ -58,7 +59,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNews = (News) getArguments().getSerializable(ARG_NEWS);
-        LitePalCRUD.createDataBase();
+        mDBDao = new DBDao(getActivity());
         mLoadNewsDetailTask = new LoadNewsDetailTask();
         mLoadNewsDetailTask.setResponse(this);
     }
@@ -75,7 +76,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
         mFloatingFavorite = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
         mWebView = (WebView) view.findViewById(R.id.web_view);
 
-        isFavorite = LitePalCRUD.isFavorite(mNews);
+        isFavorite = mDBDao.isFavorite(mNews);
         if (isFavorite) {
             mFloatingFavorite.setImageResource(R.drawable.fav_active);
         } else {
@@ -131,11 +132,11 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
         switch (v.getId()) {
             case R.id.floatingActionButton:
                 if (isFavorite) {
-                    LitePalCRUD.deleteFavorite(mNews);
+                    mDBDao.deleteFavorite(mNews);
                     mFloatingFavorite.setImageResource(R.drawable.fav_normal);
                     isFavorite = false;
                 } else {
-                    LitePalCRUD.saveFavorite(mNews);
+                    mDBDao.insertFavorite(mNews);
                     mFloatingFavorite.setImageResource(R.drawable.fav_active);
                     isFavorite = true;
                 }
