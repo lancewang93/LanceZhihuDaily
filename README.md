@@ -24,6 +24,8 @@
 
 - RecyclerView
 - Okttp
+- Retrofit
+- RxJava、RxAndroid
 - Glide
 - Design
 
@@ -35,7 +37,7 @@
 - ABOUTME页面
 - 平板设备的新页面
 - 新闻页面加分享按钮
-- 使用新依赖RxJava、RxAndroid、Retrofit、Butternife、EventBus
+- 使用新依赖Butternife、EventBus
 - 完全Material Design
 - 夜间模式
 - 设置模式

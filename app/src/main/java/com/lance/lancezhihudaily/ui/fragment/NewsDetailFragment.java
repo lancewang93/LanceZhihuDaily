@@ -24,9 +24,10 @@ import com.lance.lancezhihudaily.utils.HtmlUtil;
 import com.lance.lancezhihudaily.utils.MyApp;
 import com.lance.lancezhihudaily.utils.NetworkCheck;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/5/28 0028.
@@ -95,16 +96,13 @@ public class NewsDetailFragment extends Fragment implements View.OnClickListener
         if (NetworkCheck.checkNetWorkConnection(MyApp.getContext())) {
             RetrofitManager.builder()
                     .getNewsDetail(mNews.getId())
-                    .enqueue(new Callback<NewsDetail>() {
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<NewsDetail>() {
                         @Override
-                        public void onResponse(Call<NewsDetail> call, Response<NewsDetail> response) {
-                            mNewsDetail = response.body();
+                        public void accept(@NonNull NewsDetail newsDetail) throws Exception {
+                            mNewsDetail = newsDetail;
                             loadNewsDetailData();
-                        }
-
-                        @Override
-                        public void onFailure(Call<NewsDetail> call, Throwable t) {
-
                         }
                     });
         } else {

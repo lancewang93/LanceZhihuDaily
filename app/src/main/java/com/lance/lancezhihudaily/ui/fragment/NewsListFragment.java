@@ -30,9 +30,10 @@ import com.lance.lancezhihudaily.utils.NetworkCheck;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -82,18 +83,13 @@ public class NewsListFragment extends Fragment implements SwipeRefreshLayout.OnR
         if (NetworkCheck.checkNetWorkConnection(MyApp.getContext())) {
             RetrofitManager.builder()
                     .getLatestNews()
-                    .enqueue(new Callback<NewsList>() {
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<NewsList>() {
                         @Override
-                        public void onResponse(Call<NewsList> call, Response<NewsList> response) {
-                            if (response.isSuccess()) {
-                                mNewsList = response.body().getStories();
-                            }
+                        public void accept(@NonNull NewsList newsList) throws Exception {
+                            mNewsList = newsList.getStories();
                             mNewsAdapter.refreshNewsList(mNewsList);
-                        }
-
-                        @Override
-                        public void onFailure(Call<NewsList> call, Throwable t) {
-
                         }
                     });
         } else {
