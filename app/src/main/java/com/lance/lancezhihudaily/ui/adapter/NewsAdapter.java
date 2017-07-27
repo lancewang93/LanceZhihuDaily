@@ -64,7 +64,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             holder.newsItemId.setTextColor(ContextCompat.getColor(mContext, R.color.colorUnRead));
         }
         holder.newsItemId.setText(news.getTitle());
-        Glide.with(mContext).load(news.getImage()).into(holder.newsItemImage);
+        Glide.with(mContext).load(news.getImages().get(0)).into(holder.newsItemImage);
         holder.newsItemView.setTag(mNewsList.get(position));
 
         //RecyclerView的Item点击监听
@@ -99,5 +99,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     public void addNewsList() {
 
+    }
+
+    public void addData(List<News> newsList) {
+        if (mNewsList == null) {
+            changeData(newsList);
+        } else {
+            mNewsList.addAll(newsList);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void changeData(List<News> newsList) {
+        mNewsList = newsList;
+        notifyDataSetChanged();
     }
 }

@@ -16,18 +16,23 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.lance.lancezhihudaily.R;
-import com.lance.lancezhihudaily.asynctask.LoadNewsDetailTask;
-import com.lance.lancezhihudaily.asynctask.NewsDetailTaskResponse;
 import com.lance.lancezhihudaily.bean.News;
 import com.lance.lancezhihudaily.bean.NewsDetail;
 import com.lance.lancezhihudaily.db.DBDao;
+import com.lance.lancezhihudaily.network.RetrofitManager;
 import com.lance.lancezhihudaily.utils.HtmlUtil;
+import com.lance.lancezhihudaily.utils.MyApp;
+import com.lance.lancezhihudaily.utils.NetworkCheck;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Administrator on 2017/5/28 0028.
  */
 
-public class NewsDetailFragment extends Fragment implements NewsDetailTaskResponse,View.OnClickListener {
+public class NewsDetailFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_NEWS = "mNews";
 
@@ -42,7 +47,6 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
     public News mNews;
     public NewsDetail mNewsDetail;
 
-    private LoadNewsDetailTask mLoadNewsDetailTask;
     private DBDao mDBDao;
 
     private boolean isFavorite = false;
@@ -60,8 +64,6 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
         super.onCreate(savedInstanceState);
         mNews = (News) getArguments().getSerializable(ARG_NEWS);
         mDBDao = new DBDao(getActivity());
-        mLoadNewsDetailTask = new LoadNewsDetailTask();
-        mLoadNewsDetailTask.setResponse(this);
     }
 
     @Nullable
@@ -84,8 +86,30 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
         }
         initCollapsingToolBar();
         setWebView(mWebView);
-        mLoadNewsDetailTask.execute(mNews.getNewsId());
+        initDetail();
         return view;
+    }
+
+    //初始化界面
+    private void initDetail() {
+        if (NetworkCheck.checkNetWorkConnection(MyApp.getContext())) {
+            RetrofitManager.builder()
+                    .getNewsDetail(mNews.getId())
+                    .enqueue(new Callback<NewsDetail>() {
+                        @Override
+                        public void onResponse(Call<NewsDetail> call, Response<NewsDetail> response) {
+                            mNewsDetail = response.body();
+                            loadNewsDetailData();
+                        }
+
+                        @Override
+                        public void onFailure(Call<NewsDetail> call, Throwable t) {
+
+                        }
+                    });
+        } else {
+            NetworkCheck.noNetworkAlert(getContext());
+        }
     }
 
     //设置WebView
@@ -93,16 +117,6 @@ public class NewsDetailFragment extends Fragment implements NewsDetailTaskRespon
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
-    }
-
-    //AsyncTask的监听器返回newsDetail数据
-    @Override
-    public void processFinish(NewsDetail newsDetail) {
-        if (newsDetail != null) {
-            mNewsDetail = newsDetail;
-            //加载newsDetail数据
-            loadNewsDetailData();
-        }
     }
 
     //折叠标题栏的加载

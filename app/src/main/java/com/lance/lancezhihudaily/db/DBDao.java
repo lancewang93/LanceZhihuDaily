@@ -25,22 +25,22 @@ public class DBDao {
     public void insertFavorite(News news) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("newsId", news.getNewsId());
+        values.put("newsId", news.getId());
         values.put("title", news.getTitle());
-        values.put("image", news.getImage());
+        values.put("image", news.getImages().get(0));
         db.insert("favorite", null, values);
     }
 
     public void deleteFavorite(News news) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.delete("favorite", "newsId = ?", new String[]{news.getNewsId()});
+        db.delete("favorite", "newsId = ?", new String[]{news.getId() + ""});
     }
 
     public boolean isFavorite(News news) {
         List<News> favoriteList = getFavoriteList();
         for (News favoriteNews :
                 favoriteList) {
-            if (favoriteNews.getNewsId().equals(news.getNewsId())) {
+            if (favoriteNews.getId() == (news.getId())) {
                 return true;
             }
         }
@@ -53,7 +53,7 @@ public class DBDao {
         Cursor cursor = db.query("favorite", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                String id = cursor.getString(cursor.getColumnIndex("newsId"));
+                int id = cursor.getInt(cursor.getColumnIndex("newsId"));
                 String title = cursor.getString(cursor.getColumnIndex("title"));
                 String image = cursor.getString(cursor.getColumnIndex("image"));
                 News news = new News(id, title, image);
@@ -67,9 +67,9 @@ public class DBDao {
     public void insertRead(News news) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("newsId", news.getNewsId());
+        values.put("newsId", news.getId());
         values.put("title", news.getTitle());
-        values.put("image", news.getImage());
+        values.put("image", news.getImages().get(0));
         db.insert("read", null, values);
     }
 
@@ -79,7 +79,7 @@ public class DBDao {
         Cursor cursor = db.query("read", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                String id = cursor.getString(cursor.getColumnIndex("newsId"));
+                int id = cursor.getInt(cursor.getColumnIndex("newsId"));
                 String title = cursor.getString(cursor.getColumnIndex("title"));
                 String image = cursor.getString(cursor.getColumnIndex("image"));
                 News news = new News(id, title, image);
@@ -94,7 +94,7 @@ public class DBDao {
         List<News> readList = getReadList();
         for (News readNews :
                 readList) {
-            if (readNews.getNewsId().equals(news.getNewsId())) {
+            if (readNews.getId() == (news.getId())) {
                 return true;
             }
         }

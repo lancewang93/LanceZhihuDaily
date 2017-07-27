@@ -19,8 +19,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.lance.lancezhihudaily.R;
-import com.lance.lancezhihudaily.asynctask.LoadNewsTask;
 import com.lance.lancezhihudaily.bean.News;
+import com.lance.lancezhihudaily.bean.NewsList;
+import com.lance.lancezhihudaily.network.RetrofitManager;
 import com.lance.lancezhihudaily.ui.activity.FavoriteListActivity;
 import com.lance.lancezhihudaily.ui.adapter.NewsAdapter;
 import com.lance.lancezhihudaily.utils.MyApp;
@@ -28,6 +29,11 @@ import com.lance.lancezhihudaily.utils.NetworkCheck;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * Created by Administrator on 2017/5/28 0028.
@@ -55,7 +61,7 @@ public class NewsListFragment extends Fragment implements SwipeRefreshLayout.OnR
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.news_list_toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
         mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mSwipeRefresh.setColorSchemeResources(R.color.colorPrimary);
@@ -68,12 +74,31 @@ public class NewsListFragment extends Fragment implements SwipeRefreshLayout.OnR
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
+        init();
+        return view;
+    }
+
+    private void init() {
         if (NetworkCheck.checkNetWorkConnection(MyApp.getContext())) {
-            new LoadNewsTask(mNewsAdapter).execute();
+            RetrofitManager.builder()
+                    .getLatestNews()
+                    .enqueue(new Callback<NewsList>() {
+                        @Override
+                        public void onResponse(Call<NewsList> call, Response<NewsList> response) {
+                            if (response.isSuccess()) {
+                                mNewsList = response.body().getStories();
+                            }
+                            mNewsAdapter.refreshNewsList(mNewsList);
+                        }
+
+                        @Override
+                        public void onFailure(Call<NewsList> call, Throwable t) {
+
+                        }
+                    });
         } else {
             NetworkCheck.noNetworkAlert(getContext());
         }
-        return view;
     }
 
     @Override
@@ -100,11 +125,7 @@ public class NewsListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        if (NetworkCheck.checkNetWorkConnection(MyApp.getContext())) {
-            new LoadNewsTask(mNewsAdapter).execute();
-        } else {
-            NetworkCheck.noNetworkAlert(getContext());
-        }
+        init();
         mSwipeRefresh.setRefreshing(false);
     }
 }

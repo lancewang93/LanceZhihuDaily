@@ -25,7 +25,7 @@ public class NewsDetailPagerActivity extends AppCompatActivity {
     private News mNews;
     private List<News> mNewsList;
 
-    public static Intent newIntent(Context context,List<News> newsList, News news) {
+    public static Intent newIntent(Context context, List<News> newsList, News news) {
         Intent intent = new Intent(context, NewsDetailPagerActivity.class);
         intent.putExtra(EXTRA_NEWS, news);
         intent.putExtra(EXTRA_NEWS_LIST, (Serializable) newsList);
@@ -61,7 +61,7 @@ public class NewsDetailPagerActivity extends AppCompatActivity {
 
     private void setCurrentItem() {
         for (int i = 0; i < mNewsList.size(); i++) {
-            if (mNewsList.get(i).getNewsId().equals(mNews.getNewsId())) {
+            if (mNewsList.get(i).getId() == (mNews.getId())) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

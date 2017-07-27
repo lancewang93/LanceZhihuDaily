@@ -1,6 +1,8 @@
 package com.lance.lancezhihudaily.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/5/22 0022.
@@ -8,44 +10,60 @@ import java.io.Serializable;
 
 public class News implements Serializable {
 
-    private String newsId;
-
+    private int type;
+    private int id;
+    private String ga_prefix;
     private String title;
-
-    private String image;
+    private List<String> images;
 
     public News() {
-
     }
 
-    public News(String newsId, String title, String image) {
-
-        this.newsId = newsId;
+    public News(int id, String title, String images) {
+        this.id = id;
         this.title = title;
-        this.image = image;
+        List<String> temp = new ArrayList<>();
+        temp.add(images);
+        this.images = temp;
     }
-    public String getNewsId() {
 
-        return newsId;
+    public int getType() {
+        return type;
     }
-    public void setNewsId(String newsId) {
 
-        this.newsId = newsId;
+    public void setType(int type) {
+        this.type = type;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getGa_prefix() {
+        return ga_prefix;
+    }
+
+    public void setGa_prefix(String ga_prefix) {
+        this.ga_prefix = ga_prefix;
+    }
+
     public String getTitle() {
-
         return title;
     }
-    public void setTitle(String title) {
 
+    public void setTitle(String title) {
         this.title = title;
     }
-    public String getImage() {
 
-        return image;
+    public List<String> getImages() {
+        return images;
     }
-    public void setImage(String image) {
 
-        this.image = image;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

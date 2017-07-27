@@ -33,7 +33,7 @@ public class NewsDetail {
     private int type;
 
     //新闻的 id
-    private long id;
+    private int id;
 
     //供手机端的 WebView(UIWebView) 使用
     private List<String> js;
@@ -144,11 +144,11 @@ public class NewsDetail {
         this.type = type;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
